@@ -12,6 +12,10 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+with open('pages/style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+st.sidebar.title("")
+
 # with open('style.css') as f:
 #     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
@@ -760,7 +764,6 @@ if st.session_state.current_page == "Login":
     login_page()
 elif st.session_state.current_page == "Dashboard":
     st.sidebar.button("Logout", on_click=logout)
-    st.sidebar.button("Analytics", on_click=analytics)
     display_dashboard()
     
 

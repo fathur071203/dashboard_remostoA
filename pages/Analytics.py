@@ -12,21 +12,22 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-with open('style.css') as f:
+with open('pages/style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+st.sidebar.title("")
 
-##### THEME ##### 
-primaryColor="#6a6bfb"
-backgroundColor="#141519"
-secondaryBackgroundColor="#0b0d1f"
-textColor="#ffffff"
+# ##### THEME ##### 
+# primaryColor="#6a6bfb"
+# backgroundColor="#141519"
+# secondaryBackgroundColor="#0b0d1f"
+# textColor="#ffffff"
 
-color1="#a0a1fc"
-color2="e668ea"
-color3="6a6bfb"
-color4="efe84a"
-color5="86e29b"
-color6="ff9f4a"
+# color1="#a0a1fc"
+# color2="e668ea"
+# color3="6a6bfb"
+# color4="efe84a"
+# color5="86e29b"
+# color6="ff9f4a"
 
 # add sidebar
 st.sidebar.title("Remosto Analytics")
@@ -100,11 +101,12 @@ st.markdown("""
         .metric-container {
             text-align: left;
             font-size: 24px;
-            font-weight: bold;
+            font-weight: lighter;
             margin-bottom: 20px;
-            background: #21242d;
             padding: 25px;
             border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
         }
         .metric-label {
             font-size: 18px;
@@ -125,15 +127,16 @@ reversed_feedback_df = feedback_df[::-1]
 root_feedback_data = reversed_feedback_df[reversed_feedback_df['section'] == "Root"]
 root_feedback_data_subset = root_feedback_data.loc[:, ['star', 'categories', 'desc', 'timestamp']]
 
-counts = root_feedback_data_subset['star'].value_counts()
+counts = reversed_feedback_df['star'].mean()
 index_max_count = df_total['Count'].idxmax()
 page_with_max_count = df_total.loc[index_max_count, 'Path']
+
 with a1:
-    st.markdown('<div class="metric-container">Jumlah Pengunjung:<br>{}<br><span class="metric-label">Orang</span></div>'.format(clickstream_df.shape[0]), unsafe_allow_html=True)
+    st.markdown('<div class="metric-container">Jumlah Pengunjung:<h3>{}</h3><span class="metric-label">Orang</span></div>'.format(clickstream_df.shape[0]), unsafe_allow_html=True)
 with a2:
-    st.markdown('<div class="metric-container">Overall Feedback:<br>{}<br><span class="metric-label">Star</span></div>'.format(counts.idxmax()), unsafe_allow_html=True)
+    st.markdown('<div class="metric-container">Overall Feedback:<h3>{}</h3><span class="metric-label">Star</span></div>'.format(counts), unsafe_allow_html=True)
 with a3:
-    st.markdown('<div class="metric-container">Most Clicked:<br>{}<br><span class="metric-label">Page</span></div>'.format(page_with_max_count), unsafe_allow_html=True)
+    st.markdown('<div class="metric-container">Most Clicked:<h3>{}</h3><span class="metric-label">Page</span></div>'.format(page_with_max_count), unsafe_allow_html=True)
 
 st.title("")
 fig = px.bar(df_total, 
@@ -384,9 +387,10 @@ feedback_page = ["Home Page", "Feedback Informasi", "Feedback Tempat Makan", "Fe
 selected_feedback = st.selectbox("", ["Home Page", "Feedback Informasi", "Feedback Tempat Makan", "Feedback Pelayanan Petugas", "Feedback Robot"])
 
 if selected_feedback == "Home Page":
-    root_feedback_data = reversed_feedback_df[reversed_feedback_df['section'] == "Root"]
-    root_feedback_data_subset = root_feedback_data.loc[:, ['star', 'categories', 'desc', 'timestamp']]
-    st.table(root_feedback_data_subset)
+    st.table(reversed_feedback_df)
+    # root_feedback_data = reversed_feedback_df[reversed_feedback_df['section'] == "Root"]
+    # root_feedback_data_subset = root_feedback_data.loc[:, ['star', 'categories', 'desc', 'timestamp']]
+    # st.table(root_feedback_data_subset)
 elif selected_feedback == "Feedback Informasi":
     informasi_feedback_data = reversed_feedback_df[reversed_feedback_df['section'] == "Informasi"]
     informasi_feedback_data_subset = informasi_feedback_data.loc[:, ['star', 'categories', 'desc', 'timestamp']]
