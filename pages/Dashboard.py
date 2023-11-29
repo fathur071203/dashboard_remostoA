@@ -61,7 +61,7 @@ def display_dashboard():
 
     # Widget to choose time
     selected_period = st.sidebar.selectbox('Select Period', ["week","day"])
-    selected_count = st.sidebar.slider('Select Count', min_value=1, max_value=20, value=6)
+    selected_count = st.sidebar.slider('Select Count', min_value=1, max_value=50, value=6)
 
     # Load data based on selected time in widget
     data = load_data(selected_period, selected_count)
